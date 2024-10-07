@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizenship Quiz App</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
+        .question { margin-bottom: 20px; }
+        .options { margin-left: 20px; }
+        button { margin-top: 20px; padding: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Citizenship Quiz App</h1>
+    <div id="quiz"></div>
+    <button onclick="generateQuiz()">Generate New Quiz</button>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of Canada?",
+                options: [
+                    { text: "Toronto", comment: "Incorrect. Toronto is the capital of Ontario." },
+                    { text: "Ottawa", comment: "Correct. Ottawa is the capital of Canada." },
+                    { text: "Vancouver", comment: "Incorrect. Vancouver is a major city in British Columbia." },
+                    { text: "Montreal", comment: "Incorrect. Montreal is a major city in Quebec." }
+                ],
+                answer: 1
+            },
+            {
+                question: "Who is the head of state in Canada?",
+                options: [
+                    { text: "Prime Minister", comment: "Incorrect. The Prime Minister is the head of government." },
+                    { text: "Governor General", comment: "Incorrect. The Governor General represents the head of state." },
+                    { text: "The Monarch", comment: "Correct. The Monarch is the head of state." },
+                    { text: "Chief Justice", comment: "Incorrect. The Chief Justice is the head of the judiciary." }
+                ],
+                answer: 2
+            },
+            // Add more questions here
+        ];
+
+        function generateQuiz() {
+            const quizContainer = document.getElementById("quiz");
+            quizContainer.innerHTML = "";
+
+            // Shuffle questions and pick 20
+            const shuffledQuestions = questions.sort(() => 0.5 - Math.random()).slice(0, 20);
+
+            shuffledQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("question");
+
+                const questionText = document.createElement("p");
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionDiv.appendChild(questionText);
+
+                const optionsDiv = document.createElement("div");
+                optionsDiv.classList.add("options");
+
+                q.options.forEach((option, optIndex) => {
+                    const label = document.createElement("label");
+                    const radio = document.createElement("input");
+                    radio.type = "radio";
+                    radio.name = `question${index}`;
+                    radio.value = optIndex;
+                    radio.onclick = () => alert(option.comment);
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(` ${option.text}`));
+                    optionsDiv.appendChild(label);
+                    optionsDiv.appendChild(document.createElement("br"));
+                });
+
+                questionDiv.appendChild(optionsDiv);
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Generate the quiz when the page loads
+        window.onload = generateQuiz;
+    </script>
+</body>
+</html>
